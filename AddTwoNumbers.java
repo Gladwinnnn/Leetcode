@@ -42,7 +42,7 @@ class Solution {
             ListNode newListNode = new ListNode((int)newArray[0]);
 
             for (int i =1; i<newArray.length; i++){
-                 newListNode = new ListNode((int)newArray[i],newListNode);   
+                newListNode = new ListNode((int)newArray[i],newListNode);   
             }
 
             return newListNode;    
