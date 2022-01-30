@@ -24,74 +24,44 @@ Output: [0]
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 import java.util.*;
 
 class Solution {
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {  
-        if (l1 == null && l2 == null) {
-            return null;
-        } else if (l1 == null){
-            ArrayList<Integer> resultArrayList = populateArrayList(l2);
-            ListNode newListNode = new ListNode(resultArrayList.get(0));
-
-            for (int i = 1; i < resultArrayList.size(); i++){
-                newListNode = new ListNode(resultArrayList.get(i),newListNode); 
-            }
-
-            return newListNode;
-            
-        } else if (l2 == null) {
-            ArrayList<Integer> resultArrayList = populateArrayList(l1);
-            ListNode newListNode = new ListNode(resultArrayList.get(0));
-
-            for (int i = 1; i < resultArrayList.size(); i++){
-                newListNode = new ListNode(resultArrayList.get(i),newListNode); 
-            }
-
-            return newListNode;
-        }
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null && l2 == null) return null;
         
-        ArrayList<Integer> resultArrayList = populateArrayList(l1, l2);
-        ListNode newListNode = new ListNode(resultArrayList.get(0));
-
-        for (int i = 1; i < resultArrayList.size(); i++){
-            newListNode = new ListNode(resultArrayList.get(i),newListNode); 
+        ArrayList<Integer> placeHolder = populateIntoArrayListSorted(l1, l2);
+        ListNode result = new ListNode(placeHolder.get(0));
+        ListNode pointer = result;
+        
+        for (int i = 1; i < placeHolder.size(); i++) {
+            result.next = new ListNode(placeHolder.get(i));
+            result = result.next;
         }
-
-        return newListNode;   
+        return pointer;
     }
     
-    public ArrayList<Integer> populateArrayList(ListNode l1, ListNode l2) {
-        ArrayList<Integer> resultArrayList = new ArrayList<>();
-        
-        while (l1.next != null) {
-            resultArrayList.add(l1.val);
+    public ArrayList<Integer> populateIntoArrayListSorted(ListNode l1, ListNode l2) {
+        ArrayList<Integer> result = new ArrayList<>();
+        while (l1 != null) {
+            result.add(l1.val);
             l1 = l1.next;
         }
-        resultArrayList.add(l1.val);
-        
-        while (l2.next != null) {
-            resultArrayList.add(l2.val);
+        while (l2 != null) {
+            result.add(l2.val);
             l2 = l2.next;
         }
-        resultArrayList.add(l2.val);
-        
-        Collections.sort(resultArrayList);
-        Collections.reverse(resultArrayList);
-        return resultArrayList;
-    }
-    
-    public ArrayList<Integer> populateArrayList(ListNode l1) {
-        ArrayList<Integer> resultArrayList = new ArrayList<>();
-        
-        while (l1.next != null) {
-            resultArrayList.add(l1.val);
-            l1 = l1.next;
-        }
-        resultArrayList.add(l1.val);
-        
-        Collections.sort(resultArrayList);
-        Collections.reverse(resultArrayList);
-        return resultArrayList;
+        Collections.sort(result);
+        return result;
     }
 }
