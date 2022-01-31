@@ -32,116 +32,34 @@ import java.math.BigInteger;
 
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        StringBuilder placeHolder1 = new StringBuilder();
+        StringBuilder placeHolder2 = new StringBuilder();
         
-        try{
-            long[] array1 = getArray(l1);
-            long[] array2 = getArray(l2);
-            long total = summation(array1,array2);
-            long[] newArray = toArray(total);
-
-            ListNode newListNode = new ListNode((int)newArray[0]);
-
-            for (int i =1; i<newArray.length; i++){
-                newListNode = new ListNode((int)newArray[i],newListNode);   
-            }
-
-            return newListNode;    
-        } catch (NumberFormatException e) {
-            String placeHolder1 = "";
-            String placeHolder2 = "";
-            
-            while (l1.next != null) {
-                placeHolder1 += l1.val;
-                l1 = l1.next;
-            }
-            placeHolder1 += l1.val;
-            
-            while (l2.next != null) {
-                placeHolder2 += l2.val;
-                l2 = l2.next;
-            }
-            placeHolder2 += l2.val;
-            
-            String newPlaceHolder1 = reverse(placeHolder1);
-            String newPlaceHolder2 = reverse(placeHolder2);
-            
-            BigInteger value1 = new BigInteger(newPlaceHolder1);
-            BigInteger value2 = new BigInteger(newPlaceHolder2);
-            BigInteger addResult = value1.add(value2);
-            
-            String addResultString = addResult.toString();
-            
-            int[] anotherArray = new int[addResultString.length()];
-            for (int i = 0; i < addResultString.length(); i++){
-                anotherArray[i] = Integer.parseInt("" + addResultString.charAt(i));
-            }
-            
-            ListNode anotherNode = new ListNode(anotherArray[0]);
-            for (int i =1; i<anotherArray.length; i++){
-                 anotherNode = new ListNode(anotherArray[i],anotherNode);   
-            }
-            
-            return anotherNode;
+        while (l1 != null) {
+            placeHolder1.append("" + l1.val);
+            l1 = l1.next;
         }
-    }
-    
-    public long[] getArray(ListNode node) {
-        int count = 0;
-        ListNode tempNode = node;
-        
-        while (node.next != null) {
-            count++;
-            node = node.next;
+        while (l2 != null) {
+            placeHolder2.append("" + l2.val);
+            l2 = l2.next;
         }
         
-        count++;
+        placeHolder1.reverse();
+        placeHolder2.reverse();
         
-        long[] array = new long[count];
-        int position = count-1;
+        BigInteger bigInteger1 = new BigInteger(placeHolder1.toString());
+        BigInteger bigInteger2 = new BigInteger(placeHolder2.toString());
         
-        while (tempNode.next != null) {
-            array[position] = tempNode.val;
-            position--;
-            tempNode = tempNode.next;
-        }
+        BigInteger placeHolderInteger = bigInteger1.add(bigInteger2);
+        StringBuilder resultInteger = new StringBuilder("" + placeHolderInteger).reverse();
         
-        array[position] = tempNode.val;
         
-        return array;
-    }
-    
-    public long summation(long[] array1, long[] array2) {
-        String placeHolder1 = "";
-        String placeHolder2 = "";
+        ListNode placeHolderResult = new ListNode(Integer.parseInt("" + resultInteger.charAt(0)));
+        ListNode result = placeHolderResult;
         
-        for (long value:array1) {
-            placeHolder1 += value;
-        }
-        
-        for (long value:array2) {
-            placeHolder2 += value;
-        }
-        
-        long total = Long.parseLong(placeHolder1) + Long.parseLong(placeHolder2);
-        return total;
-    }
-    
-    public long[] toArray(long value){
-        String placeHolder = "" + value;
-        long[] array = new long[placeHolder.length()];
-        
-        for (int i = 0; i < placeHolder.length(); i++){
-            array[i] = Integer.parseInt("" + placeHolder.charAt(i));
-        }
-        
-        return array;
-    }
-    
-    public String reverse(String input) {
-        String result = "";
-        
-        for (int i = input.length()-1;i>=0;i--){
-            result += input.charAt(i);
+        for (int i = 1; i < resultInteger.length(); i++) {
+            placeHolderResult.next = new ListNode(Integer.parseInt("" + resultInteger.charAt(i)));
+            placeHolderResult = placeHolderResult.next;
         }
         
         return result;
