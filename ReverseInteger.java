@@ -21,30 +21,24 @@
 // Input: x = 0
 // Output: 0
 
-import java.lang.*;
-
-class Solution {
-    boolean isNegative = false;
-    
+class Solution {  
     public int reverse(int x) {
-        if (x < 0){
-            isNegative = true;
+        boolean isNegative = x < 0;
+        x = Math.abs(x);
+        StringBuilder placeHolder = new StringBuilder();
+        
+        while (x > 0) {
+            int temp = x % 10;
+            placeHolder.append("" + temp);
+            x /= 10;
         }
         
         try{
-            x = Math.abs(x);
-            String placeHolder = "" + x;
-            String resultString = "";
-
-            for (int i = placeHolder.length()-1; i >= 0; i--){
-                resultString += placeHolder.charAt(i);
-            }
-
-            int result = Integer.parseInt(resultString);
-
             if (isNegative){
-                return -result;
-            } return result;   
+                return -Integer.parseInt(placeHolder.toString());
+            } else {
+                return Integer.parseInt(placeHolder.toString());
+            }
         } catch(NumberFormatException e){
             return 0;
         }
