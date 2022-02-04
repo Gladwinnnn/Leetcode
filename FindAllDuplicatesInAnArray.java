@@ -13,16 +13,12 @@
 
 class Solution {
     public List<Integer> findDuplicates(int[] nums) {
-        HashMap<Integer, Integer> checkList = new HashMap<>();
+        HashSet<Integer> checkList = new HashSet<>();
         ArrayList<Integer> result = new ArrayList<>();
         
         for (int number:nums) {
-            if (!checkList.containsKey(number)) checkList.put(number,1);
-            else checkList.put(number, checkList.get(number) + 1);
-        }
-        
-        for (int number:checkList.keySet()) {
-            if (checkList.get(number) == 2) result.add(number);
+            if (checkList.contains(number)) result.add(number);
+            else checkList.add(number);
         }
         
         return result;
