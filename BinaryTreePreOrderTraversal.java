@@ -45,22 +45,30 @@ Output: [1,2]
  *     }
  * }
  */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
+    ArrayList<Integer> result = new ArrayList<>();
     public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-        insertIntoList(root, result);
+        if (root == null) return result;
+        
+        result.add(root.val);
+        if (root.left != null) preorderTraversal(root.left);
+        if (root.right != null) preorderTraversal(root.right);
+        
         return result;
-    }
-    
-    public void insertIntoList(TreeNode root, List<Integer> result) {
-        if (root != null) {
-            result.add(root.val);
-            if (root.left != null) {
-                insertIntoList(root.left, result);
-            }
-            if (root.right != null) {
-                insertIntoList(root.right, result);
-            }
-        }
     }
 }
